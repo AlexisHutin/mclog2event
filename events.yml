@@ -1,0 +1,13 @@
+events:
+  - event_type: "player_join"
+    pattern: '(?P<player>\w+) joined the game'
+    description: "A player joined the server."
+  - event_type: "player_leave"
+    pattern: '(?P<player>\w+) left the game'
+    description: "A player left the server."
+  - event_type: "player_chat"
+    pattern: '<(?P<player>\w+)> (?P<message>.*)'
+    description: "A player sent a chat message."
+  - event_type: "player_advancement"
+    pattern: '(?P<player>\w+) has made the advancement \[(?P<advancement>.*)\]'
+    description: "A player made an advancement."
