@@ -160,6 +160,33 @@ Just edit `events.yml` and add a new entry. The app will load it on startup. Use
 
 ---
 
+## 🚧 TODO / Roadmap
+
+Here’s a bunch of stuff I’d like to add, improve, or play with in the future:
+
+- Prometheus metrics and OpenTelemetry support  
+  Expose internal metrics (e.g. matched events, errors, webhook push stats) to Prometheus.  
+  Primary goal: gain hands-on experience with observability tools.
+
+- Grafana dashboard  
+  Provide a ready-to-use Grafana dashboard to visualize logs and event activity.
+
+- Add shoutrrr support  
+  Integrate [shoutrrr](https://github.com/containrrr/shoutrrr) to send events to services like Discord, Telegram, Slack, etc.
+
+- Example event configuration  
+  Include a default `events.yml` with common Minecraft log patterns, ready to use for most vanilla servers.
+
+- n8n workflow example  
+  Provide an example [n8n](https://n8n.io) automation that reacts to incoming events.
+
+- Documentation for regex capture patterns  
+  Write a short guide explaining how named capture groups work in regex, using Minecraft log examples.
+
+If you’ve got ideas, feel free to open an issue or drop a PR.
+
+---
+
 ## 🙌 Contributing
 
 Found a bug? Got a cool idea? Fork the repo and open a pull request — happy to have help from fellow Minecraft nerds.
