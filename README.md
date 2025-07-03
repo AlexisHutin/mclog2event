@@ -141,7 +141,7 @@ services:
     environment:
       # The log file to watch inside the container.
       # This should be the name of your minecraft log file.
-      - LOG_FILE_PATH=logs/latest.log
+      - LOG_FILE_PATH=/logs/latest.log
       - WEBHOOK_URL=http://url.of/your/webhook # Replace with your webhook receiver
       - EVENT_CONFIG_PATH=/events.yml
 ```
