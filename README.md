@@ -183,6 +183,15 @@ Here’s a bunch of stuff I’d like to add, improve, or play with in the future
 - Documentation for regex capture patterns  
   Write a short guide explaining how named capture groups work in regex, using Minecraft log examples.
 
+- CI/CD pipeline  
+  Set up GitHub Actions to build, lint, test, and maybe even release.
+
+- Unit tests  
+  Add some proper tests for the matcher logic and other core parts. Gotta break stuff with confidence.
+
+- Docker image publishing  
+  Automatically publish a Docker image to Docker Hub or GHCR on release so folks can just `docker pull` and go.
+
 If you’ve got ideas, feel free to open an issue or drop a PR.
 
 ---
