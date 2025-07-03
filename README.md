@@ -163,6 +163,48 @@ Just edit `events.yml` and add a new entry. The app will load it on startup. Use
 
 ---
 
+## 📊 Metrics / Observability
+
+`mclog2event` exposes internal metrics via [OpenTelemetry](https://opentelemetry.io/) in Prometheus format, including:
+
+- `logs_parsed_count` — Number of logs parsed  
+- `logs_parsed_duration_ms` —  Logs parsing duration (milliseconds)  
+- `logs_match_count` — Number of matched events by type  
+- `logs_match_duration_ms` — Matching duration (milliseconds)  
+- `logs_push_count` — Number of webhook pushes  
+- `logs_push_duration_ms` — Push duration (milliseconds)
+
+Metrics include labels to add context:
+
+- **`type`**: event type for matched logs (e.g. `player_join`, `player_chat`)  
+- **`matched`**: indicates if a parsed log matched an event (`true` or `false`)  
+
+Labels enable fine-grained filtering and aggregation in Prometheus and Grafana.
+
+Metrics are exposed on port `2222` at `/metrics` (configurable via Docker).  
+You can scrape these with Prometheus to monitor your tool’s performance and health.
+
+---
+
+## 🔧 Prometheus Configuration Example
+
+Here is an example scrape configuration to add to your Prometheus `prometheus.yml`:
+
+```yaml
+scrape_configs:
+  - job_name: 'mclog2event'
+    static_configs:
+      - targets: ['localhost:2222']  # Change if running elsewhere
+```
+
+---
+
+## 📈 Grafana Dashboard
+
+TODO
+
+---
+
 ## 🚧 TODO / Roadmap
 
 Here’s a bunch of stuff I’d like to add, improve, or play with in the future:
