@@ -3,6 +3,8 @@ services:
   mclog2event:
     build: .
     container_name: mclog2event
+    ports: 
+      - "2222:2222"
     volumes:
       # Mount the directory containing your Minecraft log file to /logs
       # Example: - /path/to/minecraft/logs:/logs

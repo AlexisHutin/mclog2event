@@ -119,6 +119,7 @@ docker run -d \
   -e EVENT_CONFIG_PATH=/events.yml \
   -v /path/to/logs/latest.log:/logs/latest.log \
   -v $(pwd)/events.yml:/events.yml \
+  -p 2222:2222 \
   --name mclog2event \
   mclog2event
 ```
@@ -133,6 +134,8 @@ services:
   mclog2event:
     build: .
     container_name: mclog2event
+    ports: 
+      - "2222:2222"
     volumes:
       # Mount the directory containing your Minecraft log file to /logs
       # Example: - /path/to/minecraft/logs:/logs
