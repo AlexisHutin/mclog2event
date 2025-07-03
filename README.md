@@ -164,33 +164,33 @@ Just edit `events.yml` and add a new entry. The app will load it on startup. Use
 
 Here’s a bunch of stuff I’d like to add, improve, or play with in the future:
 
-- Prometheus metrics and OpenTelemetry support  
+- [ ] Prometheus metrics and OpenTelemetry support  
   Expose internal metrics (e.g. matched events, errors, webhook push stats) to Prometheus.  
   Primary goal: gain hands-on experience with observability tools.
 
-- Grafana dashboard  
+- [ ] Grafana dashboard  
   Provide a ready-to-use Grafana dashboard to visualize logs and event activity.
 
-- Add shoutrrr support  
-  Integrate [shoutrrr](https://github.com/containrrr/shoutrrr) to send events to services like Discord, Telegram, Slack, etc.
-
-- Example event configuration  
+- [ ] Example event configuration  
   Include a default `events.yml` with common Minecraft log patterns, ready to use for most vanilla servers.
 
-- n8n workflow example  
+- [ ] n8n workflow example  
   Provide an example [n8n](https://n8n.io) automation that reacts to incoming events.
 
-- Documentation for regex capture patterns  
+- [ ] Documentation for regex capture patterns  
   Write a short guide explaining how named capture groups work in regex, using Minecraft log examples.
 
-- CI/CD pipeline  
+- [ ] CI/CD pipeline  
   Set up GitHub Actions to build, lint, test, and maybe even release.
 
-- Unit tests  
+- [ ] Unit tests  
   Add some proper tests for the matcher logic and other core parts. Gotta break stuff with confidence.
 
-- Docker image publishing  
+- [ ] Docker image publishing  
   Automatically publish a Docker image to Docker Hub or GHCR on release so folks can just `docker pull` and go.
+
+- [ ] Add shoutrrr support (maybe)  
+  Integrate [shoutrrr](https://github.com/containrrr/shoutrrr) to send events to services like Discord, Telegram, Slack, etc.
 
 If you’ve got ideas, feel free to open an issue or drop a PR.
 
