@@ -201,7 +201,19 @@ scrape_configs:
 
 ## 📈 Grafana Dashboard
 
-TODO
+We’ve got a ready-to-go Grafana dashboard you can import to visualize all the Prometheus metrics from `mclog2event`.  
+
+It shows charts broken down by event type and whether logs matched or not, plus total values for each metric.
+
+### How to use
+
+1. Make sure Grafana is connected to your Prometheus data source scraping `mclog2event` metrics.
+2. Import the dashboard JSON file:  
+   - Go to **Grafana → Dashboards → Manage → Import**
+   - Upload the file [`mclog2event.json`](./devstack/grafana/dashboards/mclog2event.json)
+3. Use the filters on top to zoom in on event types or match results.
+
+This dashboard makes it easy to keep an eye on what’s happening in real time — logs parsed, matched, pushed, and timing info.
 
 ---
 

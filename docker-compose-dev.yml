@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  mclog2event:
+    build: .
+    container_name: mclog2event
+    ports: 
+      - "2222:2222"
+    volumes:
+      # Mount the directory containing your Minecraft log file to /logs
+      # Example: - /path/to/minecraft/logs:/logs
+      - ./logs:/logs
+      - ./events.yml:/events.yml
+    environment:
+      # The log file to watch inside the container.
+      # This should be the name of your minecraft log file.
+      - LOG_FILE_PATH=/logs/latest.log
+      # - WEBHOOK_URL=http://host.docker.internal:8080/webhook # Replace with your webhook receiver
+      - WEBHHOOK_URL=http://url.of/your/webhook
+      - EVENT_CONFIG_PATH=/events.yml
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./devstack/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./devstack/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./devstack/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./devstack/grafana/dashboards:/etc/grafana/dashboards
+      - grafana-storage:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+
+volumes:
+  grafana-storage:
+
