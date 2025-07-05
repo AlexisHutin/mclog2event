@@ -207,7 +207,7 @@ It shows charts broken down by event type and whether logs matched or not, plus 
 
 1. Make sure Grafana is connected to your Prometheus data source scraping `mclog2event` metrics.
 2. Import the dashboard JSON file:  
-   - Go to **Grafana → Dashboards → Manage → Import**
+   - Go to **Grafana → Dashboards → New (dropdown) → Import**
    - Upload the file [`mclog2event.json`](./devstack/grafana/dashboards/mclog2event.json)
 3. Use the filters on top to zoom in on event types or match results.
 
