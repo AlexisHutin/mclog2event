@@ -1,5 +1,5 @@
 <div align="center">
-  <img style="width: 128px; height: 128px;" src="./mclog2event_logo.png" alt="logo" />
+  <img style="width: 256px; height: 256px;" src="./mclog2event_logo.png" alt="logo" />
   <h1>mclog2event</h1>
   <p><em></em></p>
 </div>
