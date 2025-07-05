@@ -1,0 +1,262 @@
+{
+  "id": null,
+  "uid": "mclog2event-dashboard",
+  "title": "mclog2event Metrics",
+  "schemaVersion": 38,
+  "version": 1,
+  "editable": true,
+  "refresh": "10s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "type",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(logs_match_count_total, type)",
+        "refresh": 1,
+        "includeAll": true,
+        "multi": true
+      },
+      {
+        "name": "matched",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(logs_parsed_count_total, matched)",
+        "refresh": 1,
+        "includeAll": true,
+        "multi": true
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Match Count",
+      "description": "Rate of total matched log events per second, grouped by event type.",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(logs_match_count_total{type=~\"$type\"}[1m])",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(logs_match_count_total[1m])",
+          "legendFormat": "total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 6
+      }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Match Duration (avg ms)",
+      "description": "Average duration in milliseconds to match a log event, grouped by type.",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(logs_match_duration_ms_sum{type=~\"$type\"}[1m]) / rate(logs_match_duration_ms_count{type=~\"$type\"}[1m])",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(logs_match_duration_ms_sum[1m]) / rate(logs_match_duration_ms_count[1m])",
+          "legendFormat": "total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 6,
+        "w": 8,
+        "h": 6
+      }
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "Match Duration (p90)",
+      "description": "90th percentile of match duration (ms), providing insight into slower operations.",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.9, sum(rate(logs_match_duration_ms_bucket{type=~\"$type\"}[5m])) by (le, type))",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.9, sum(rate(logs_match_duration_ms_bucket[5m])) by (le))",
+          "legendFormat": "total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 12,
+        "w": 8,
+        "h": 6
+      }
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Parsed Count",
+      "description": "Rate of log parsing operations per second, filtered by whether they matched.",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(logs_parsed_count_total{matched=~\"$matched\"}[1m])",
+          "legendFormat": "{{matched}}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(logs_parsed_count_total[1m])",
+          "legendFormat": "total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 8,
+        "y": 0,
+        "w": 8,
+        "h": 6
+      }
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Parsed Duration (avg ms)",
+      "description": "Average time to parse a log line (in milliseconds), grouped by match result.",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(logs_parsed_duration_ms_sum{matched=~\"$matched\"}[1m]) / rate(logs_parsed_duration_ms_count{matched=~\"$matched\"}[1m])",
+          "legendFormat": "{{matched}}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(logs_parsed_duration_ms_sum[1m]) / rate(logs_parsed_duration_ms_count[1m])",
+          "legendFormat": "total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 8,
+        "y": 6,
+        "w": 8,
+        "h": 6
+      }
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Parsed Duration (p90)",
+      "description": "90th percentile of parsing duration (ms), highlighting heavier parsing workloads.",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.9, sum(rate(logs_parsed_duration_ms_bucket{matched=~\"$matched\"}[5m])) by (le, matched))",
+          "legendFormat": "{{matched}}",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.9, sum(rate(logs_parsed_duration_ms_bucket[5m])) by (le))",
+          "legendFormat": "total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 8,
+        "y": 12,
+        "w": 8,
+        "h": 6
+      }
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "Push Count",
+      "description": "Rate of push operations triggered by matched events, per event type.",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(logs_push_count_total{type=~\"$type\"}[1m])",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(logs_push_count_total[1m])",
+          "legendFormat": "total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 16,
+        "y": 0,
+        "w": 8,
+        "h": 6
+      }
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "Push Duration (avg ms)",
+      "description": "Average duration in milliseconds to push matched events to downstream systems.",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(logs_push_duration_ms_sum{type=~\"$type\"}[1m]) / rate(logs_push_duration_ms_count{type=~\"$type\"}[1m])",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(logs_push_duration_ms_sum[1m]) / rate(logs_push_duration_ms_count[1m])",
+          "legendFormat": "total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 16,
+        "y": 6,
+        "w": 8,
+        "h": 6
+      }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Push Duration (p90)",
+      "description": "90th percentile of push duration (ms), showing latency under heavier loads.",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.9, sum(rate(logs_push_duration_ms_bucket{type=~\"$type\"}[5m])) by (le, type))",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.9, sum(rate(logs_push_duration_ms_bucket[5m])) by (le))",
+          "legendFormat": "total",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 16,
+        "y": 12,
+        "w": 8,
+        "h": 6
+      }
+    }
+  ]
+}

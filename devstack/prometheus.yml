@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'mclog2event'
+    static_configs:
+      - targets: ['mclog2event:2222']

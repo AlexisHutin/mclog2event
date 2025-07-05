@@ -119,6 +119,7 @@ docker run -d \
   -e EVENT_CONFIG_PATH=/events.yml \
   -v /path/to/logs/latest.log:/logs/latest.log \
   -v $(pwd)/events.yml:/events.yml \
+  -p 2222:2222 \
   --name mclog2event \
   mclog2event
 ```
@@ -133,6 +134,8 @@ services:
   mclog2event:
     build: .
     container_name: mclog2event
+    ports: 
+      - "2222:2222"
     volumes:
       # Mount the directory containing your Minecraft log file to /logs
       # Example: - /path/to/minecraft/logs:/logs
@@ -157,6 +160,60 @@ docker-compose up --build -d
 ## ➕ Adding Events
 
 Just edit `events.yml` and add a new entry. The app will load it on startup. Use named regex capture groups to grab values and send them in the event payload.
+
+---
+
+## 📊 Metrics / Observability
+
+`mclog2event` exposes internal metrics via [OpenTelemetry](https://opentelemetry.io/) in Prometheus format, including:
+
+- `logs_parsed_count` — Number of logs parsed  
+- `logs_parsed_duration_ms` —  Logs parsing duration (milliseconds)  
+- `logs_match_count` — Number of matched events by type  
+- `logs_match_duration_ms` — Matching duration (milliseconds)  
+- `logs_push_count` — Number of webhook pushes  
+- `logs_push_duration_ms` — Push duration (milliseconds)
+
+Metrics include labels to add context:
+
+- **`type`**: event type for matched logs (e.g. `player_join`, `player_chat`)  
+- **`matched`**: indicates if a parsed log matched an event (`true` or `false`)  
+
+Labels enable fine-grained filtering and aggregation in Prometheus and Grafana.
+
+Metrics are exposed on port `2222` at `/metrics` (configurable via Docker).  
+You can scrape these with Prometheus to monitor your tool’s performance and health.
+
+---
+
+## 🔧 Prometheus Configuration Example
+
+Here is an example scrape configuration to add to your Prometheus `prometheus.yml`:
+
+```yaml
+scrape_configs:
+  - job_name: 'mclog2event'
+    static_configs:
+      - targets: ['localhost:2222']  # Change if running elsewhere
+```
+
+---
+
+## 📈 Grafana Dashboard
+
+We’ve got a ready-to-go Grafana dashboard you can import to visualize all the Prometheus metrics from `mclog2event`.  
+
+It shows charts broken down by event type and whether logs matched or not, plus total values for each metric.
+
+### How to use
+
+1. Make sure Grafana is connected to your Prometheus data source scraping `mclog2event` metrics.
+2. Import the dashboard JSON file:  
+   - Go to **Grafana → Dashboards → Manage → Import**
+   - Upload the file [`mclog2event.json`](./devstack/grafana/dashboards/mclog2event.json)
+3. Use the filters on top to zoom in on event types or match results.
+
+This dashboard makes it easy to keep an eye on what’s happening in real time — logs parsed, matched, pushed, and timing info.
 
 ---
 

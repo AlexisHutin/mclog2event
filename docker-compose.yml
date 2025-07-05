@@ -3,6 +3,8 @@ services:
   mclog2event:
     build: .
     container_name: mclog2event
+    ports: 
+      - "2222:2222"
     volumes:
       # Mount the directory containing your Minecraft log file to /logs
       # Example: - /path/to/minecraft/logs:/logs
@@ -11,6 +13,7 @@ services:
     environment:
       # The log file to watch inside the container.
       # This should be the name of your minecraft log file.
-      - LOG_FILE_PATH=/logs/app.log
-      - WEBHOOK_URL=http://host.docker.internal:8080/webhook # Replace with your webhook receiver
+      - LOG_FILE_PATH=/logs/latest.log
+      # Replace with your webhook receiver
+      - WEBHHOOK_URL=http://url.of/your/webhook
       - EVENT_CONFIG_PATH=/events.yml
