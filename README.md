@@ -221,11 +221,11 @@ This dashboard makes it easy to keep an eye on what’s happening in real time �
 
 Here’s a bunch of stuff I’d like to add, improve, or play with in the future:
 
-- [ ] Prometheus metrics and OpenTelemetry support  
+- [x] Prometheus metrics and OpenTelemetry support  
   Expose internal metrics (e.g. matched events, errors, webhook push stats) to Prometheus.  
   Primary goal: gain hands-on experience with observability tools.
 
-- [ ] Grafana dashboard  
+- [x] Grafana dashboard  
   Provide a ready-to-use Grafana dashboard to visualize logs and event activity.
 
 - [ ] Example event configuration  
