@@ -21,26 +21,24 @@ Great for automations, fun Discord bots, or just keeping an eye on what’s happ
 
 ## 🔄 Workflow Overview
 
-```txt
-+-----------------+        +----------------+        +----------------+
-| Minecraft Log 📄 | ───▶  | Log Watcher 👀 | ───▶  |   Matcher 🔍    |
-+-----------------+        +----------------+        +----------------+
-                                                            │
-                                                            ▼
-                                                   Matches an Event? 
-                                                            │
-                                                Yes         │         No
-                                                ▼           ▼
-                                          +--------------------------+
-                                          |   Event Payload 📦       |
-                                          |   (from regex groups)    |
-                                          +--------------------------+
-                                                    │
-                                                    ▼
-                                      +------------------------------+
-                                      | Webhook Pusher 📬            |
-                                      | Sends payload to your URL    |
-                                      +------------------------------+
+```mermaid
+sequenceDiagram
+    participant MinecraftLog as Minecraft Log 📄
+    participant LogWatcher as Log Watcher 👀
+    participant Matcher as Matcher 🔍
+    participant EventPayload as Event Payload 📦
+    participant WebhookPusher as Webhook Pusher 📬
+
+    MinecraftLog->>LogWatcher: Log entry emitted
+    LogWatcher->>Matcher: Passes log line
+    Matcher->>Matcher: Check regex match
+    alt Match found
+        Matcher->>EventPayload: Extract data from regex groups
+        EventPayload->>WebhookPusher: Send payload
+        WebhookPusher->>WebhookPusher: Send to configured URL
+    else No match
+        Matcher-->>LogWatcher: Ignore
+    end
 ```
 
 ---
