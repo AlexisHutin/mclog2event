@@ -25,6 +25,10 @@ jobs:
         with:
           go-version: '1.24'
 
+      - name: Set lowercase owner name
+        id: prep
+        run: echo "owner_lower=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+        
       - name: Build binary
         run: go build -o mclog2event .
 
@@ -42,10 +46,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set lowercase owner name
-        id: prep
-        run: echo "owner_lower=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
       - name: Build & push Docker image
         uses: docker/build-push-action@v3
