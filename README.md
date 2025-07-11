@@ -121,7 +121,7 @@ docker run -d \
   -v $(pwd)/events.yml:/events.yml \
   -p 2222:2222 \
   --name mclog2event \
-  mclog2event
+  ghcr.io/alexishutin/mclog2event:latest
 ```
 
 ### Run with Docker Compose 🐳
@@ -132,7 +132,7 @@ Here’s an example `docker-compose.yml` to get you going:
 version: '3.8'
 services:
   mclog2event:
-    build: .
+    image: ghcr.io/alexishutin/mclog2event:latest
     container_name: mclog2event
     ports: 
       - "2222:2222"
