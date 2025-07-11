@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mclog2event:
-    build: .
+    image: ghcr.io/alexishutin/mclog2event:latest
     container_name: mclog2event
     ports: 
       - "2222:2222"
