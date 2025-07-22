@@ -106,11 +106,7 @@ go run main.go
 
 ### Run with Docker 🐳
 
-```bash
-docker build -t mclog2event .
-```
-
-Then run:
+Here’s an example of a docker run:
 
 ```bash
 docker run -d \
