@@ -145,12 +145,6 @@ services:
       - EVENT_CONFIG_PATH=/events.yml
 ```
 
-Run it with:
-
-```bash
-docker-compose up --build -d
-```
-
 ---
 
 ## ➕ Adding Events
